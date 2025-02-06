@@ -14,16 +14,20 @@ setstatus(char *status) {
 
 void
 getbat(char *bat) {
-	FILE *fp = fopen("/sys/class/power_supply/BAT0/capacity", "r");
+	FILE *fp = fopen("/sys/class/power_supply/BAT1/capacity", "r");
+	if (fp == NULL) {
+		snprintf(bat, 16, "404 Battery");
+		return;
+	}
 	char buf[16];
 	int charge;
 	fgets(buf, 16, fp);
 	bat[15] = 0;
 	fclose(fp);
-	if (buf[2] == 10) {
-		snprintf(bat, 16, "%c%c%%", buf[0], buf[1]);
+	if (buf[0] == '1') {
+		snprintf(bat, 16, "%c%c%c%%", buf[0], buf[1], buf[2]);
 	} else {
-		snprintf(bat, 16, "%s%%", buf);
+		snprintf(bat, 16, "%c%c%% ", buf[0], buf[1]);
 	}
 
 }
