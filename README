@@ -1,0 +1,6 @@
+Very simple dwm status bar.
+Free to use / modify.
+If battery isn't working check if your /sys/class/power_supply/BAT0 is not BAT1 or something else.
+
+Build:
+sudo make install && make clean
